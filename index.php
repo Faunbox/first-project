@@ -14,4 +14,6 @@ $request = [
   'post' => $_POST
 ];
 
+Controler::initConfiguration($config);
+
 (new Controler($request))->run();

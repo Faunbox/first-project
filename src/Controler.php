@@ -5,17 +5,28 @@ declare(strict_types=1);
 namespace App;
 
 require_once("src/View.php");
+require_once("Database.php");
 
 class Controler {
 
     private const DEFAULT_ACTION = 'list';
+
+    private static array $configuration = [];
+
     private array $request;
     private View $view;
 
+    public static function initConfiguration(array $configuration):void
+    {
+        self::$configuration = $configuration;
+    }
+
     public function __construct(array $request)
     {
+        $db = new Database(self::$configuration['db']);
+
         $this->request = $request;
-        $this->view = new View();
+        $this->view = new View();     
     }
 
     private function action(): string
@@ -27,10 +38,7 @@ class Controler {
     public function run(): void {
         $viewParams = [];
         
-        $action = $this->action();
-        
-
-        
+        $action = $this->action();       
 
         switch($action){
             case 'create':
