@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App;
 
-require_once("src/View.php");
+use App\Exception\AppException;
+
+require_once("View.php");
 require_once("Database.php");
 
 class Controler {
@@ -23,6 +25,10 @@ class Controler {
 
     public function __construct(array $request)
     {
+        if (empty(self::$configuration['db']))
+        {
+            throw new AppException('Config error');
+        }
         $db = new Database(self::$configuration['db']);
 
         $this->request = $request;
